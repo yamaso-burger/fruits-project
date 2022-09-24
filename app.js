@@ -23,7 +23,7 @@ const fruit = new Fruit({
     review: "So yummy!!"
 });
 
-fruit.save();
+// fruit.save();
 
 const personSchema = mongoose.Schema({
     firstName: String,
@@ -65,15 +65,29 @@ const banana = new Fruit({
 //     }
 // });
 
-Fruit.find(function(err, fruits){
+function seeDB(){
+
+    Fruit.find(function(err, fruits){
+        if (err) {
+            console.log(err);
+        } else {
+    
+            mongoose.connection.close();
+            console.log(fruits);
+            fruits.forEach((fruit)=>{
+                console.log(fruit.name);
+            });
+            process.exit(0);
+    
+        }
+    });
+}
+
+Fruit.updateOne({_id: "632ec4f91f8cee902f6e564a"}, {name: "Peach"}, function(err) {
     if (err) {
         console.log(err);
     } else {
-
-        mongoose.connection.close();
-        fruits.forEach((fruit)=>{
-            console.log(fruit.name);
-        });
-        process.exit(0);
+        console.log("Successfully updated the document!");
+        seeDB();
     }
 });
