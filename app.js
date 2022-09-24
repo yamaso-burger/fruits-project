@@ -1,25 +1,19 @@
-const { MongoClient } = require("mongodb");
+const mongoose = require('mongoose');
 
-// Replace the url string with your connection string.
-const url =
-  "mongodb://localhost:27017";
+mongoose.connect("mongodb://localhost:27017/fruitsDB", {useNewUrlParser: true});
 
-const dbName = 'fruitDB';
+const fruitSchema = new mongoose.Schema ({
+    name: String,
+    rating: Number,
+    review: String
+});
 
-const client = new MongoClient(url, { useNewUrlParser: true});
+const Fruit = mongoose.model("Fruit",fruitSchema);
 
-async function run() {
-  try {
-    const database = client.db('testDB');
-    const items = database.collection('Items');
-    // insert item
-    const doc = { _id: 1, name: "Neapolitan pizza", price: 4.0 };
+const fruit = new Fruit({
+    name: "Apple",
+    rating: 7,
+    review: "Pretty solid as a fruit."
+});
 
-    const result = await items.insertOne(doc);
-    console.log(result);
-  } finally {
-    // Ensures that the client will close when you finish/error
-    await client.close();
-  }
-}
-run().catch(console.dir);
+fruit.save();
