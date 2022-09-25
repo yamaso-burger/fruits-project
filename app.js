@@ -83,11 +83,27 @@ function seeDB(){
     });
 }
 
-Fruit.updateOne({_id: "632ec4f91f8cee902f6e564a"}, {name: "Peach"}, function(err) {
-    if (err) {
-        console.log(err);
-    } else {
-        console.log("Successfully updated the document!");
-        seeDB();
-    }
-});
+function upadateData(id, name){
+
+    Fruit.updateOne({_id: id}, {name: "Peach"}, function(err) {
+        if (err) {
+            console.log(err);
+        } else {
+            console.log("Successfully updated the document!");
+            seeDB();
+        }
+    });
+}
+
+function deleteData(id){
+    Fruit.deleteOne({_id: id}, function(err) {
+        if (err) { 
+            console.log(err);
+        } else {
+            console.log("Successfully delete!!");
+            seeDB();
+        }
+    })
+}
+
+deleteData("632ec4f91f8cee902f6e564a");
