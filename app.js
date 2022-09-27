@@ -28,7 +28,8 @@ const fruit = new Fruit({
 const personSchema = mongoose.Schema({
     firstName: String,
     lastName: String,
-    age: Number
+    age: Number,
+    favoriteFruit: fruitSchema
 });
 
 const Person = mongoose.model("Person", personSchema);
@@ -38,6 +39,23 @@ const person = new Person({
     lastName: "Yamauchi",
     age: 24
 });
+
+const pineapple = new Fruit({
+    name: "Pineapple",
+    score: 9,
+    review: "Great fruit."
+});
+
+// pineapple.save();
+
+const person2 = new Person({
+    firstName: "Amy",
+    lastName: "Targaryen",
+    age: 12,
+    favoriteFruit: pineapple
+});
+
+// person2.save();
 
 // person.save();
 
@@ -83,9 +101,9 @@ function seeDB(){
     });
 }
 
-function upadateData(id, name){
+function upadateData(id){
 
-    Fruit.updateOne({_id: id}, {name: "Peach"}, function(err) {
+    Person.updateOne({_id: id}, {favoriteFruit: kiwi}, function(err) {
         if (err) {
             console.log(err);
         } else {
@@ -95,8 +113,11 @@ function upadateData(id, name){
     });
 }
 
+upadateData("632e6aac83cb4956f3ac45d6");
+
+
 function deleteData(id){
-    Fruit.deleteOne({_id: id}, function(err) {
+    Person.deleteOne({_id: id}, function(err) {
         if (err) { 
             console.log(err);
         } else {
@@ -105,5 +126,19 @@ function deleteData(id){
         }
     })
 }
+// deleteData("633247790d1a12dceeeaacf5");
 
-deleteData("632ec4f91f8cee902f6e564a");
+function deleteDataMultiple(){
+    Fruit.deleteMany({name: /Kiwi/}, function(err){
+        if (err) {
+            console.log(err);
+        } else {
+            console.log("Successfully deleted");
+            seeDB();
+        }
+    })
+}
+
+// deleteDataMultiple();
+
+// seeDB();
